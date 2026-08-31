@@ -26,11 +26,6 @@ app.use('/api/users', userRoute);
 app.use('/api/events', eventRoute);
 app.use('/api/teams', teamRoute);
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
-app.get('*', ( req, res) =>{
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));  
-})
     
 app.listen(port, () => {    
     console.log(`listening at http://localhost:${port}`);
