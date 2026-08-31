@@ -7,6 +7,7 @@ import eventRoute from './routes/eventRoute.js';
 import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
 import path from 'path';
+import cors from 'cors';
 
 dotenv.config();
 cloudinary.v2.config({
@@ -17,7 +18,10 @@ cloudinary.v2.config({
 
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 
 const port = process.env.PORT;
 
