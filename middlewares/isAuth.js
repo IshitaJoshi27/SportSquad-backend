@@ -1,22 +1,24 @@
 import jwt from "jsonwebtoken";
-import {User }from "../models/userModel.js";
+import { User } from "../models/userModel.js";
 
-export const isAuth  = async(req ,res  ,next) =>{
+export const isAuth = async (req, res, next) => {
+    console.log("Cookies:", req.cookies);
+    console.log("Authorization:", req.headers.authorization);
     try {
         const token = req.cookies?.token || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
         if (!token) {
             return res.status(401).json({ msg: 'Please login' });
         }
-        
-    const decodedData = jwt.verify(token, process.env.JWT_SEC);
 
-    if(!decodedData)
-        return res.status(403).json({msg: "Please Login"});
-        
-    req.user = await User.findById(decodedData.id);
-    next();
-        
+        const decodedData = jwt.verify(token, process.env.JWT_SEC);
+
+        if (!decodedData)
+            return res.status(403).json({ msg: "Please Login" });
+
+        req.user = await User.findById(decodedData.id);
+        next();
+
     } catch (error) {
-        res.status(500).json({msg: "Please Login"});
+        res.status(500).json({ msg: "Please Login" });
     }
 }
